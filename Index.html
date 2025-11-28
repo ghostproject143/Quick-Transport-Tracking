@@ -1,72 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Map Background UI</title>
 
-    <style>
-        h1 {
-            font-size: 50px;
-            color: blue;
-            padding: 20px;
-            text-align: center;
-        }
-        p {
-            font-size: 30px;
-            color: blue;
-            padding: 20px;
-            text-align: center;
-        }
-        .welcome {
-            text-align: center;
-            margin-top: 50px;
-        }
-        input[type="text"] {
-            font-size: 20px;
-            padding: 10px;
-            width: 250px;
-        }
-        input[type="submit"], button {
-            font-size: 20px;
-            padding: 10px 20px;
-            cursor: pointer;
-            background-color: blue;
-            color: white;
-        }
-        nav{
-            text-align:center;
-            font-size: 24px;
-            color: black;
-        }   
-    </style>
+<!-- LEAFLET CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
 
+<!-- LEAFLET JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+<style>
+
+/* RESET BODY FOR FULL MAP */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* MAP FULLSCREEN BACKGROUND */
+#map {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+}
+
+/* EVERYTHING ABOVE THE MAP */
+* {
+    position: relative;
+    z-index: 2;
+}
+
+/* HEADER */
+header h1 {
+    font-size: 50px;
+    color: blue;
+    padding: 20px;
+    text-align: center;
+}
+header p {
+    font-size: 30px;
+    color: blue;
+    text-align: center;
+}
+
+/* TOP RIGHT BUTTON */
+nav {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+nav a {
+    background: blue;
+    color: white;
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+nav a:hover {
+    background: darkblue;
+}
+
+/* MODAL BOX */
+.modal {
+    background: #fff;
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    border-radius: 20px 20px 0 0;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-top: 40px;
+}
+.modal h1 {
+    font-size: 24px;
+    margin: 0 0 20px;
+    font-weight: 700;
+    text-align: left;
+}
+
+/* SERVICE CARDS */
+.service-list {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.card {
+    width: 140px;
+    padding: 15px;
+    background: #f6fbff;
+    border-radius: 15px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.card img {
+    width: 80px;
+}
+.card-title {
+    margin-top: 10px;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+/* RECENT TRIP */
+.recent-title {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.trip-card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.trip-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.blue-dot { color: #2c8bff; margin-right: 4px; }
+.orange-dot { color: orange; margin-right: 4px; }
+
+</style>
 </head>
+
 <body>
 
-    <div>
-        <h1>Quick Transportation Vehicle</h1>  
-        <p><b>Fast and Reliable</b></p>
-    </div>
- 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        
-        <a class="nav-link" href="#">About us</a>
-      </div>
-    </div>
-  </div>
+<!-- MAP BACKGROUND -->
+<div id="map"></div>
+
+<!-- NAV BUTTON -->
+<nav>
+    <a href="#">About Us</a>
 </nav>
 
-    <div class="welcome">
-        <h2>Welcome!</h2>
-        <p>Please enter your Location:</p>  
-        <form action="map.html" method="get">
-            <input type="text" name="destination" placeholder="Enter Location" required>   
-        <input type="submit" value="Click">
-        </form>
+<!-- HEADER -->
+<header>
+    <h1>Quick Transportation Vehicle</h1>
+    <p><b>Fast and Reliable</b></p>
+</header>
+
+<!-- MAIN UI -->
+<div class="modal">
+
+    <h1>Hi! Anong trip natin?</h1>
+    <h3>Select a service type</h3>
+
+    <div class="service-list">
+        <div class="card">
+            <img src="motorcycle.png" alt="Motorcycle">
+            <div class="card-title">Motorcycle</div>
+        </div>
+        <div class="card">
+            <img src="padala.png" alt="Padala">
+            <div class="card-title">Padala</div>
+        </div>
     </div>
 
+    <div class="recent-title">Rebook a recent trip</div>
 
-</body> 
+    <div class="trip-card">
+        <div class="trip-header">
+            <span>Motorcycle</span>
+            <a href="#">Rebook →</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function initMap(mapDataUrl){
+    const map = L.map('map').setView([8.367635691333382, 124.86643130804512], 17);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    fetch(mapDataUrl)
+        .then(res => res.json())
+        .then(data => {
+            data.forEach(pin => {
+                const marker = L.marker([pin.lat, pin.lng]).addTo(map);
+                marker.bindPopup(`${pin.name}<br>${pin.description}`);
+            });
+        });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initMap('maps.json');
+});
+</script>
+
+</body>
 </html>
