@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pickup & Dropoff UI</title>
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+
+    #map {
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+    }
+
+
+    .container {
+        width: 420px;
+        margin: 30px auto;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+        padding-bottom: 30px;
+        overflow: hidden;
+        position: relative;
+        z-index: 2;
+    }
+
+    .top {
+        background: #08a4e4;
+        padding: 20px;
+        border-radius: 0 0 20px 20px;
+        color: white;
+    }
+
+    .input-box {
+        background: white;
+        border-radius: 30px;
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .input-box input {
+        border: none;
+        outline: none;
+        font-size: 16px;
+        flex: 1;
+        margin-left: 10px;
+    }
+
+    .section {
+        padding: 20px;
+    }
+
+    .location-btn {
+        background: white;
+        padding: 15px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        border: 1px solid #e6ecf1;
+    }
+
+    .saved-places-title {
+        margin-top: 22px;
+        margin-bottom: 12px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #444;
+    }
+
+    .saved-list {
+        display: flex;
+        gap: 12px;
+    }
+
+    .saved-box {
+        flex: 1;
+        border: 1px solid #cde4ff;
+        border-radius: 12px;
+        padding: 15px 10px;
+        text-align: center;
+        cursor: pointer;
+        background: #f7fbff;
+        transition: 0.2s;
+    }
+
+    .saved-box:hover {
+        background: #e6f3ff;
+    }
+
+
+    .bottom-map {
+        background: #0077b6;
+        color: white;
+        border: none;
+        padding: 16px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 90%;
+        margin: 25px auto 0;
+        display: block;
+        border-radius: 10px;
+        transition: 0.2s;
+    }
+
+    .bottom-map:hover {
+        background: #005f8c;
+    }
+</style>
+
+</head>
+<body>
+
+
+<div id="map"></div>
+
+<div class="container">
+
+
+    <div class="top">
+
+        <div class="input-box">
+            <span>📍</span>
+            <input type="text" placeholder="Input pickup location">
+        </div>
+
+        <div class="input-box">
+            <span>🏁</span>
+            <input type="text" placeholder="Input drop-off location">
+        </div>
+
+    </div>
+
+ 
+    <div class="section">
+        <div class="location-btn">📡 Use My Current Location</div>
+
+        <div class="saved-places-title">Saved Places</div>
+
+        <div class="saved-list">
+            <div class="saved-box">🏠<br>Add Home</div>
+            <div class="saved-box">💼<br>Add Work</div>
+            <div class="saved-box">🎒<br>Add School</div>
+        </div>
+    </div>
+
+ 
+<button class="bottom-map" onclick="window.location.href='map.html'">
+    🗺️ Choose from map
+
+
+
+
+</div>
+
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+const map = L.map('map').setView([10.3157, 123.8854], 13);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19
+}).addTo(map);
+</script>
+
+</body>
+</html>

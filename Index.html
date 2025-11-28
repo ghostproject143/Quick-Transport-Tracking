@@ -3,24 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Map Background UI</title>
+<title>Map Background</title>
 
-<!-- LEAFLET CSS -->
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
 
-<!-- LEAFLET JS -->
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
 <style>
 
-/* RESET BODY FOR FULL MAP */
+
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
 }
 
-/* MAP FULLSCREEN BACKGROUND */
+
 #map {
     position: fixed;
     top: 0;
@@ -30,13 +30,12 @@ html, body {
     z-index: 0;
 }
 
-/* EVERYTHING ABOVE THE MAP */
 * {
     position: relative;
     z-index: 2;
 }
 
-/* HEADER */
+
 header h1 {
     font-size: 50px;
     color: blue;
@@ -49,7 +48,7 @@ header p {
     text-align: center;
 }
 
-/* TOP RIGHT BUTTON */
+
 nav {
     position: absolute;
     top: 20px;
@@ -68,7 +67,7 @@ nav a:hover {
     background: darkblue;
 }
 
-/* MODAL BOX */
+
 .modal {
     background: #fff;
     width: 100%;
@@ -86,7 +85,7 @@ nav a:hover {
     text-align: left;
 }
 
-/* SERVICE CARDS */
+
 .service-list {
     display: flex;
     justify-content: center;
@@ -111,7 +110,7 @@ nav a:hover {
     font-size: 16px;
 }
 
-/* RECENT TRIP */
+
 .recent-title {
     font-weight: 700;
     margin-bottom: 10px;
@@ -136,36 +135,85 @@ nav a:hover {
 
 <body>
 
-<!-- MAP BACKGROUND -->
+
 <div id="map"></div>
 
-<!-- NAV BUTTON -->
+
+
+    <nav>
+        <div  href="student-dashboard.html" class="card-title">Truck</div>
+</nav>
+<body>
+
 <nav>
-    <a href="#">About Us</a>
+    <a href="AboutUs.html" onclick="goAboutUs()">About Us</a>
 </nav>
 
-<!-- HEADER -->
+<div id="map"></div>
+<div class="container">
+    ...
+</div>
+
+<script>
+
+function goAboutUs() {
+    window.location.href = "aboutus.html";
+}
+
+const map = L.map('map').setView([10.3157, 123.8854], 13);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19
+}).addTo(map);
+
+</script>
+
+
+
+
+
+
+
 <header>
     <h1>Quick Transportation Vehicle</h1>
     <p><b>Fast and Reliable</b></p>
 </header>
 
-<!-- MAIN UI -->
+
 <div class="modal">
 
-    <h1>Hi! Anong trip natin?</h1>
+
     <h3>Select a service type</h3>
 
     <div class="service-list">
-        <div class="card">
-            <img src="motorcycle.png" alt="Motorcycle">
-            <div class="card-title">Motorcycle</div>
-        </div>
-        <div class="card">
-            <img src="padala.png" alt="Padala">
-            <div class="card-title">Padala</div>
-        </div>
+    <div class="card" onclick="chooseService('Truck')">
+        <img src="https://t4.ftcdn.net/jpg/16/00/88/59/360_F_1600885913_d8ElPX8BuU6wi0DhDUpSBojcRRFpmnSz.jpg" alt="Motorcycle">
+        <div class="card-title">Truck</div>
     </div>
+
+    <div class="card" onclick="chooseService('Padala')">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLspP8HNKi1dnxSxW_82I35S7BPJK-1M2Hfg&s" alt="Padala">
+        <div class="card-title">Padala</div>
+         
+    </div>
+</div>
+
+<script>
+function chooseService(service) {
+
+
+    if (service === "Truck") {
+        window.location.href = "booking.html";   
+    }
+
+    if (service === "Padala") {
+        window.location.href = "booking.html";  
+    }
+
+    console.log("Selected service:", service);
+}
+</script>
+
 
     <div class="recent-title">Rebook a recent trip</div>
 
