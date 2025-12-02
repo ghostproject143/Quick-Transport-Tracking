@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pickup & Dropoff UI</title>
 
-
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
 <style>
@@ -16,7 +15,6 @@
         overflow: hidden;
     }
 
-
     #map {
         height: 100vh;
         width: 100vw;
@@ -26,15 +24,13 @@
         z-index: 1;
     }
 
-
     .container {
-        width: 420px;
-        margin: 30px auto;
+        width: 350px;
+        margin: 20px auto;
         background: white;
         border-radius: 16px;
         box-shadow: 0 4px 16px rgba(0,0,0,0.25);
         padding-bottom: 30px;
-        overflow: hidden;
         position: relative;
         z-index: 2;
     }
@@ -53,6 +49,8 @@
         display: flex;
         align-items: center;
         margin-bottom: 10px;
+        position: relative;
+        z-index: 10;
     }
 
     .input-box input {
@@ -61,6 +59,29 @@
         font-size: 16px;
         flex: 1;
         margin-left: 10px;
+    }
+
+    .suggestions-box {
+        position: relative;
+        background: rgb(111, 231, 245);
+        width: 100%;
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        z-index: 10000;
+        display: none;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .suggestion-item {
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid #eee;
+    }
+
+    .suggestion-item:hover {
+        background: #f2f9ff;
     }
 
     .section {
@@ -77,6 +98,8 @@
         font-weight: bold;
         cursor: pointer;
         border: 1px solid #e6ecf1;
+        margin-bottom: 10px;
+        justify-content: center;
     }
 
     .saved-places-title {
@@ -107,7 +130,6 @@
         background: #e6f3ff;
     }
 
-
     .bottom-map {
         background: #0077b6;
         color: white;
@@ -126,50 +148,97 @@
     .bottom-map:hover {
         background: #005f8c;
     }
+
+    .saved-box {
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin: 5px 0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .saved-box.active {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+
+   
+    .book-btn {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 14px;
+        width: 100%;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 15px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .book-btn:hover {
+        background: #1e7e34;
+    }
+
 </style>
 
 </head>
 <body>
 
-
 <div id="map"></div>
 
 <div class="container">
 
-
     <div class="top">
 
+      
         <div class="input-box">
             <span>📍</span>
-            <input type="text" placeholder="Input pickup location">
+            <input id="pickupInput" type="text" placeholder="Input pickup location" 
+                   onfocus="setActive('pickup')" oninput="searchLocation('pickup')">
         </div>
-
+        <div id="pickupSuggestions" class="suggestions-box"></div>
+   
         <div class="input-box">
             <span>🏁</span>
-            <input type="text" placeholder="Input drop-off location">
+            <input id="dropoffInput" type="text" placeholder="Input drop-off location" 
+                   onfocus="setActive('dropoff')" oninput="searchLocation('dropoff')">
         </div>
+        <div id="dropoffSuggestions" class="suggestions-box"></div>
 
     </div>
 
- 
     <div class="section">
-        <div class="location-btn">📡 Use My Current Location</div>
 
-        <div class="saved-places-title">Saved Places</div>
+        <div class="location-btn" onclick="locateUser()">📡 Use My Current Location</div>
+
+        <div class="saved-places-title">Book Your Vehicle</div>
 
         <div class="saved-list">
-            <div class="saved-box">🏠<br>Add Home</div>
-            <div class="saved-box">💼<br>Add Work</div>
-            <div class="saved-box">🎒<br>Add School</div>
+            <div class="card" onclick="chooseService('Truck')"></div>
+            <div class="saved-box" onclick="highlightBox(this)"><br>Car</div>
+            <div class="saved-box" onclick="highlightBox(this)"><br>Truck</div>
+            <div class="saved-box" onclick="highlightBox(this)"><br>Motorcycle</div>
         </div>
-    </div>
 
  
-<button class="bottom-map" onclick="window.location.href='map.html'">
-    🗺️ Choose from map
+        <button class="book-btn" onclick="bookNow()">Pag book na</button>
 
+        <script>
+        function highlightBox(selected) {
+            document.querySelectorAll('.saved-box').forEach(box => {
+                box.classList.remove('active');
+            });
+            selected.classList.add('active');
+        }
+        </script>
 
+    </div>
 
+    <button class="bottom-map" onclick="activateMapChoose()">🗺️ Pag pili sa mapa</button>
 
 </div>
 
@@ -177,11 +246,171 @@
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
-const map = L.map('map').setView([10.3157, 123.8854], 13);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19
-}).addTo(map);
+let allLocations = [];
+
+fetch('maps.json')
+    .then(res => res.json())
+    .then(data => allLocations = data.map(pin => pin.name));
+
+function searchLocation(type) {
+    const input = document.getElementById(type + "Input").value.toLowerCase();
+    const box = document.getElementById(type + "Suggestions");
+
+    if (!input.trim()) { box.style.display = "none"; return; }
+
+    const results = allLocations.filter(n =>
+        n.toLowerCase().startsWith(input)
+    );
+
+    if (results.length === 0) { box.style.display = "none"; return; }
+
+    box.innerHTML = results
+        .map(n => `<div class="suggestion-item" onclick="selectLocation('${type}', '${n}')">${n}</div>`)
+        .join("");
+
+    box.style.display = "block";
+}
+
+function selectLocation(type, name) {
+    document.getElementById(type + "Input").value = name;
+    document.getElementById(type + "Suggestions").style.display = "none";
+}
+
+
+let activeInput = null;
+let pickupMarker = null;
+let dropoffMarker = null;
+
+function setActive(type) {
+    activeInput = type + "Input";
+}
+
+function activateMapChoose() {
+    if (!activeInput) activeInput = "pickupInput";
+    document.querySelector(".container").style.display = "none";
+    alert("Tap the map to set location.");
+}
+
+function enableMapClickToPick() {
+    window.map.on("click", async (e) => {
+        if (!activeInput) return;
+
+        const lat = e.latlng.lat;
+        const lng = e.latlng.lng;
+
+        const data = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
+        ).then(r => r.json());
+
+        const name = data.display_name || `${lat}, ${lng}`;
+        document.getElementById(activeInput).value = name;
+
+        if (activeInput === "pickupInput") {
+            if (pickupMarker) window.map.removeLayer(pickupMarker);
+            pickupMarker = L.marker([lat, lng]).addTo(window.map);
+        } else {
+            if (dropoffMarker) window.map.removeLayer(dropoffMarker);
+            dropoffMarker = L.marker([lat, lng], {
+                icon: L.icon({
+                    iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41]
+                })
+            }).addTo(window.map);
+        }
+
+        document.querySelector(".container").style.display = "block";
+    });
+}
+
+
+
+function initMap(mapDataUrl){
+
+    const openStreetMap = L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        { maxZoom: 20, attribution: '© OpenStreetMap' }
+    );
+
+    const satellite = L.tileLayer(
+        'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
+        { maxZoom: 20, attribution: 'Google Satellite' }
+    );
+
+    const map = L.map('map', {
+        center: [8.3676, 124.8664],
+        zoom: 17,
+        layers: [satellite]
+    });
+
+    const baseLayers = {
+        "Satellite": satellite,
+        "OpenStreetMap": openStreetMap
+    };
+
+    L.control.layers(baseLayers, null, { position: 'topright' }).addTo(map);
+
+    map.locate({ setView: true, maxZoom: 18 });
+
+   
+
+    
+
+                
+    window.map = map;
+    enableMapClickToPick();
+}
+
+
+function locateUser() {
+    if (window.map) window.map.locate({ setView: true, maxZoom: 18 });
+}
+
+document.addEventListener('DOMContentLoaded', () => initMap('maps.json'));
+
+
+
+function bookNow() {
+    const active = document.querySelector('.saved-box.active');
+    if (!active) {
+        alert("Please select a vehicle before booking!");
+        return;
+    }
+
+    const vehicle = active.innerText.trim();
+    const pickup = document.getElementById("pickupInput").value.trim();
+    const dropoff = document.getElementById("dropoffInput").value.trim();
+
+    if (!pickup || !dropoff) {
+        alert("Please input pickup and dropoff!");
+        return;
+    }
+
+
+    saveToHistory(pickup, dropoff, vehicle);
+
+    alert("You booked: " + vehicle);
+
+
+    window.location.href = "history.html";
+}
+
+
+</script>
+<script>
+function saveToHistory(pickup, dropoff, vehicle) {
+    const entry = {
+        pickup,
+        dropoff,
+        vehicle,
+        date: new Date().toLocaleString()
+    };
+
+    let history = JSON.parse(localStorage.getItem("bookingHistory")) || [];
+    history.unshift(entry); // add to top
+    localStorage.setItem("bookingHistory", JSON.stringify(history));
+}
 </script>
 
 </body>

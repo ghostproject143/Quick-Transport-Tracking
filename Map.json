@@ -1,30 +1,156 @@
 [
     {
-        "name": "Dicklum Manolo Fortich Bukidnon",
-        "lat": 8.372837,
-        "lng": 124.850178,
-        "description": "This is the Dicklum"
+        "name": "Malaybalay City",
+        "type": "City",
+        "lat": 8.1575,
+        "lng": 125.1277,
+        "description": "Capital of Bukidnon"
     },
     {
-        "name": "Alae Manolo Fortich Bukidnon",
-        "lat": 8.422987,
-        "lng": 124.816752,
-        "description": "This is the Alae"
+        "name": "Valencia City",
+        "type": "City",
+        "lat": 7.9064,
+        "lng": 125.0942,
+        "description": "City in Bukidnon"
     },
     {
-        "name":"ICS Laboratory 1",
-         "title":"ICS Lab 1",
-        "description":"This is the ICS Laboratory 1, yipee",
-        "img":"https://i.pinimg.com/originals/69/f3/06/69f30621a0729b0d546a19532c09c72a.gif",
-         "lat":8.3593,
-         "lng":124.8691
+        "name": "Baungon",
+        "type": "Municipality",
+        "lat": 8.3583,
+        "lng": 124.7528,
+        "description": "Municipality in Bukidnon"
     },
     {
-        "name":"Comfort Room 1",
-        "title":"CR nga way yabi",
-        "description":"",
-        "img":"https://media1.tenor.com/m/fJK1WcHbXFAAAAAC/stuck-in-toilet-fell-into-toilet.gif",
-        "lat":8.359009695166359,
-        "lng":124.86911436078864
+        "name": "Cabanglasan",
+        "type": "Municipality",
+        "lat": 8.1638,
+        "lng": 125.3799,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "Damulog",
+        "type": "Municipality",
+        "lat": 7.4063,
+        "lng": 124.9056,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "Dangcagan",
+        "type": "Municipality",
+        "lat": 7.5531,
+        "lng": 125.0047,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "Don Carlos",
+        "type": "Municipality",
+        "lat": 7.6833,
+        "lng": 124.9833,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "Impasugong",
+        "type": "Municipality",
+        "lat": 8.2622,
+        "lng": 125.0247,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "Kadingilan",
+        "type": "Municipality",
+        "lat": 7.5,
+        "lng": 124.8833,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "Kalilangan",
+        "type": "Municipality",
+        "lat": 7.8333,
+        "lng": 124.75,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "Kibawe",
+        "type": "Municipality",
+        "lat": 7.5667,
+        "lng": 124.9833,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "Kitaotao",
+        "type": "Municipality",
+        "lat": 7.6333,
+        "lng": 125.0167,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "Lantapan",
+        "type": "Municipality",
+        "lat": 8.0,
+        "lng": 125.0,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "Libona",
+        "type": "Municipality",
+        "lat": 8.3333,
+        "lng": 124.7333,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "Malitbog",
+        "type": "Municipality",
+        "lat": 8.5333,
+        "lng": 124.8833,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "Manolo Fortich",
+        "type": "Municipality",
+        "lat": 8.3696,
+        "lng": 124.864,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "Maramag",
+        "type": "Municipality",
+        "lat": 7.7636,
+        "lng": 125.0056,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "Pangantucan",
+        "type": "Municipality",
+        "lat": 7.8333,
+        "lng": 124.8167,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "Quezon",
+        "type": "Municipality",
+        "lat": 7.7333,
+        "lng": 124.9333,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "San Fernando",
+        "type": "Municipality",
+        "lat": 7.9167,
+        "lng": 125.3167,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "Sumilao",
+        "type": "Municipality",
+        "lat": 8.2667,
+        "lng": 124.9833,
+        "description": "Municipality in Bukidnon"
+    },
+    {
+        "name": "Talakag",
+        "type": "Municipality",
+        "lat": 8.2333,
+        "lng": 124.6667,
+        "description": "Municipality in Bukidnon"
     }
 ]

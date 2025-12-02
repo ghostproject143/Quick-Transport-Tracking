@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Booking History</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f2f6fa;
+    }
+
+    .header {
+        background: #08a4e4;
+        padding: 20px;
+        text-align: center;
+        color: white;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 450px;
+        margin: 20px auto;
+    }
+
+    .history-item {
+        background: white;
+        padding: 15px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        border-left: 5px solid #08a4e4;
+    }
+
+    .label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .value {
+        margin-left: 5px;
+        color: #555;
+    }
+
+    .date {
+        margin-top: 8px;
+        font-size: 14px;
+        color: #777;
+    }
+
+    .new-booking-btn {
+        background: #28a745;
+        color: white;
+        padding: 15px;
+        width: 100%;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+
+    .new-booking-btn:hover {
+        background: #1e7e34;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="header">📜 Booking History</div>
+
+<div class="container" id="historyContainer"></div>
+
+<button class="new-booking-btn" onclick="createNewBooking()">＋ Create New Booking</button>
+
+<script>
+
+function loadHistory() {
+    const history = JSON.parse(localStorage.getItem("bookingHistory")) || [];
+    const container = document.getElementById("historyContainer");
+
+    if (history.length === 0) {
+        container.innerHTML = `<p style="text-align:center; color:#666; margin-top:20px;">
+            No booking history yet.
+        </p>`;
+        return;
+    }
+
+    container.innerHTML = "";
+
+    history.forEach(h => {
+        const item = document.createElement("div");
+        item.className = "history-item";
+        item.innerHTML = `
+            <div><span class="label">🚗 Vehicle:</span> <span class="value">${h.vehicle}</span></div>
+            <div><span class="label">📍 Pickup:</span> <span class="value">${h.pickup}</span></div>
+            <div><span class="label">🏁 Dropoff:</span> <span class="value">${h.dropoff}</span></div>
+            <div class="date">🕒 ${h.date}</div>
+        `;
+        container.appendChild(item);
+    });
+}
+
+function createNewBooking() {
+    window.location.href = "booking.html";
+}
+
+
+loadHistory();
+</script>
+
+</body>
+</html>
