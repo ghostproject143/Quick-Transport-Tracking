@@ -408,7 +408,7 @@ function saveToHistory(pickup, dropoff, vehicle) {
     };
 
     let history = JSON.parse(localStorage.getItem("bookingHistory")) || [];
-    history.unshift(entry); // add to top
+    history.unshift(entry);
     localStorage.setItem("bookingHistory", JSON.stringify(history));
 }
 </script>
